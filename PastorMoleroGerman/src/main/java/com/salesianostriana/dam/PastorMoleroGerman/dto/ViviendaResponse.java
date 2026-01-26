@@ -19,7 +19,7 @@ public record ViviendaResponse(
         boolean disponible,
         LocalDate fechaPublicacion
 ) {
-    public ViviendaResponse viviendaResponse(Vivienda v){
+    public static ViviendaResponse viviendaResponse(Vivienda v){
         return new ViviendaResponse(
                 v.getId(),
                 v.getTitulo(),

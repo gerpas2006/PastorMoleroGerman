@@ -27,7 +27,7 @@ public interface ViviendaFilter {
                 builder.equal(builder.lower(from.get("estadoVivienda")), estadoVivienda);
     }
 
-     static PredicateSpecification<Vivienda> filtrarPorAscensor(){
+     static PredicateSpecification<Vivienda> filtrarPorAscensor(boolean ascensor){
         return (from, builder) ->
                 builder.isTrue(from.get("ascensor"));
     }
@@ -36,17 +36,33 @@ public interface ViviendaFilter {
                 builder.isTrue(from.get("terraza"));
     }
 
-     static PredicateSpecification<Vivienda> filtarPorGarage(){
+     static PredicateSpecification<Vivienda> filtarPorGarage(boolean garaje){
         return (from, builder) ->
                 builder.isTrue(from.get("garage"));
     }
 
      static PredicateSpecification<Vivienda> filtarPorPrecio(Integer precioMax, Integer precioMin){
-         Double precioMaxReal = precioMax == null ? precioMax : Double.POSITIVE_INFINITY;
-         Double precioMinReal = precioMin == null ? precioMin : Double.NEGATIVE_INFINITY ;
+         int precioMaxReal = precioMax == null ? 0 : precioMax;
+         int precioMinReal = precioMin == null ? 0 : precioMin ;
          return (from, criteriaBuilder) ->
                  criteriaBuilder.between(from.get("precio"),precioMinReal,precioMaxReal);
      }
 
+    static PredicateSpecification<Vivienda> filtrarPorMetros(Integer metrosMax,Integer metrosMin){
+        double metrosMaxReal = metrosMax == null ? 0 : metrosMax;
+        double metrosMnReal = metrosMin == null ? 0: metrosMin;
+        return (from, criteriaBuilder) ->
+                criteriaBuilder.between(from.get("metrosCuadrados"),metrosMaxReal,metrosMnReal);
+    }
+
+    static PredicateSpecification<Vivienda> filtarPorHabitaciones(Integer numHabitacion){
+         return (from, criteriaBuilder) ->
+                 criteriaBuilder.greaterThan(from.get("numHabitaciones"),numHabitacion);
+    }
+
+    static PredicateSpecification<Vivienda> filtarPorBanos(Integer numBanos){
+         return (from, criteriaBuilder) ->
+                 criteriaBuilder.greaterThan(from.get("banos"),numBanos);
+    }
 
 }
